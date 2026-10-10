@@ -1,5 +1,9 @@
-#include <bits/stdc++.h>
-using namespace std;
+// placeholder
+#ifndef SRC_HPP
+#define SRC_HPP
+
+#include <algorithm>
+#include <cstring>
 
 namespace sjtu {
 class CrossArray {
@@ -34,7 +38,6 @@ public:
         }
     }
 
-    // Destructor
     ~CrossArray() {
         for (int i = 0; i < maxLines; ++i) {
             delete[] arr[i];
@@ -43,14 +46,12 @@ public:
         delete[] sizes;
     }
 
-    // Insert a new array; returns false if capacity exceeded
     bool InsertArrays(const int *Input, int size) {
-        // find first empty slot
         int idx = -1;
         for (int i = 0; i < maxLines; ++i) {
             if (arr[i] == nullptr) { idx = i; break; }
         }
-        if (idx == -1) return false; // no space
+        if (idx == -1) return false;
         arr[idx] = new int[size];
         std::copy(Input, Input + size, arr[idx]);
         sizes[idx] = size;
@@ -58,9 +59,7 @@ public:
         return true;
     }
 
-    // Append to existing line
     void AppendArrays(const int *Input, int Line, int size) {
-        // assume arr[Line] exists
         int oldSize = sizes[Line];
         int newSize = oldSize + size;
         int *newArr = new int[newSize];
@@ -74,18 +73,15 @@ public:
         totalElements += size;
     }
 
-    // Return reference to the larger (by element count) CrossArray
     CrossArray &WhichGreater(CrossArray &o) {
         if (o.totalElements > this->totalElements) return o;
-        return *this; // if equal, return this
+        return *this;
     }
 
-    // Check if two objects share the same underlying storage
     bool IsSame(const CrossArray &o) {
         return this->arr == o.arr;
     }
 
-    // Double the capacity of lines
     void DoubleCrossLength() {
         int newMax = maxLines * 2;
         int **newArr = new int*[newMax];
@@ -105,7 +101,7 @@ public:
         maxLines = newMax;
     }
 
-    const int *AtArray(int i) {
+    const int *AtArray(int i) const {
         return arr[i];
     }
 
@@ -113,9 +109,6 @@ public:
         return arr[i][j];
     }
 };
-} // namespace sjtu
-
-int main(){
-    // No specific I/O required for this problem.
-    return 0;
 }
+
+#endif // SRC_HPP
